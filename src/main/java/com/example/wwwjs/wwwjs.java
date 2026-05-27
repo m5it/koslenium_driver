@@ -220,11 +220,13 @@ public class wwwjs {
 
 		CountDownLatch shutdownLatch = new CountDownLatch(1);
 
-		// If browser mode, make an initial blank load so the window appears
+		// If browser mode, create the window and show it (does NOT block on page load)
 		if (browserMode) {
 			System.err.println("Starting browser server mode (window will appear)...");
-			// Trigger browser window creation by loading a blank page
-			HeadlessWebRender.renderBrowser("about:blank", 0, null, 5, cookieFile, shutdownLatch);
+			// Create the browser window (synchronous, ~100ms) so the persistent
+			// window is ready before the first request arrives.
+			HeadlessWebRender.showBrowserWindow(shutdownLatch, cookieFile);
+			System.err.println("Browser window created, starting server socket...");
 		}
 
 		try (ServerSocket ss = new ServerSocket(port)) {

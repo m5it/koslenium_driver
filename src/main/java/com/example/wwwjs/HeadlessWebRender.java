@@ -56,6 +56,42 @@ public class HeadlessWebRender {
 		initialized = true;
 	}
 
+	/**
+	 * Create and show the persistent browser window (no page loaded yet).
+	 * Blocks until the JavaFX thread creates the window and sets browserReady=true.
+	 */
+	public static void showBrowserWindow(CountDownLatch shutdownLatch, String cookieFile) throws Exception {
+		java.io.File cf = (cookieFile != null && !cookieFile.isEmpty())
+			? new java.io.File(cookieFile) : null;
+		java.io.File cfFinal = cf;
+		CountDownLatch ready = new CountDownLatch(1);
+		Platform.runLater(() -> {
+			browserView = new WebView();
+			browserView.setPrefWidth(1280);
+			browserView.setPrefHeight(720);
+			browserEngine = browserView.getEngine();
+			browserStage = new Stage();
+			browserStage.setScene(new Scene(browserView));
+			browserStage.centerOnScreen();
+			if (shutdownLatch != null) {
+				browserStage.setOnCloseRequest(e -> {
+					if (cfFinal != null) {
+						saveCookiesFromJs(browserEngine, cfFinal.getPath());
+					}
+					shutdownLatch.countDown();
+				});
+			}
+			browserStage.setTitle("wwwjs");
+			browserStage.show();
+			browserReady = true;
+			ready.countDown();
+		});
+		ready.await(10, TimeUnit.SECONDS);
+		if (!browserReady) {
+			throw new RuntimeException("Failed to create browser window (timeout)");
+		}
+	}
+
 	// --- Server-mode dispatch: JSON command in, JSON response out ---
 
 	public static String fetch(String jsonCommand, CountDownLatch shutdownLatch) {
@@ -248,7 +284,7 @@ public class HeadlessWebRender {
 			browserEngine.load(url);
 		});
 
-		return future.get(timeoutSec + 300, TimeUnit.SECONDS);
+		return future.get(Math.max(timeoutSec, 10) + 30, TimeUnit.SECONDS);
 	}
 
 	// --- Headless rendering (no window) ---
@@ -396,7 +432,7 @@ public class HeadlessWebRender {
 			eng.load(url);
 		});
 
-		return future.get(timeoutSec + 300, TimeUnit.SECONDS);
+		return future.get(Math.max(timeoutSec, 10) + 30, TimeUnit.SECONDS);
 	}
 
 	// --- Cookie injection via JavaScript ---
