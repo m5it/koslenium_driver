@@ -27,7 +27,7 @@ MODPATH="$MODPATH:$JAR"
 
 JAVA_CMD=(java --module-path "$MODPATH" \
      --add-modules javafx.controls,javafx.web \
-     -cp "$JAR:$DIR/target/classes" \
+     -cp "$DIR/target/classes:$JAR" \
      com.example.wwwjs.wwwjs "$@")
 
 # If DISPLAY is not set, try xvfb-run for headless environments

@@ -100,7 +100,8 @@ public class HeadlessWebRender {
 
 			if (cmd.optBoolean("shutdown", false)) {
 				Platform.runLater(() -> {
-					saveCookiesFromJs(engine, cmd.optString("cookie_file", null));
+					WebEngine saveEngine = (browserEngine != null) ? browserEngine : engine;
+					saveCookiesFromJs(saveEngine, cmd.optString("cookie_file", null));
 					Platform.exit();
 				});
 				return new JSONObject().put("status", "ok").put("data", "shutting down").toString();
@@ -124,7 +125,8 @@ public class HeadlessWebRender {
 				return new JSONObject().put("status", "ok").put("data", "window hidden").toString();
 			}
 
-			String url = cmd.getString("url");
+			String url = cmd.optString("url", null);
+			String script = cmd.optString("script", null);
 			long waitMs = cmd.optLong("wait", 3000);
 			String selector = cmd.optString("selector", null);
 			boolean browser = cmd.optBoolean("browser", false);
@@ -137,6 +139,16 @@ public class HeadlessWebRender {
 
 			// Ensure JavaFX is running
 			init();
+
+			// Script-only command (no URL): execute on current page
+			if (url == null && script != null && !script.isEmpty()) {
+				String scriptResult = eval(script, waitMs);
+				return new JSONObject()
+					.put("status", "ok")
+					.put("data", "script executed")
+					.put("script_result", scriptResult)
+					.toString();
+			}
 
 			String body;
 
@@ -527,6 +539,35 @@ public class HeadlessWebRender {
 		});
 
 		future.get(timeoutSec + 30, TimeUnit.SECONDS);
+	}
+
+	// --- Execute JavaScript on current page (no URL load) ---
+
+	public static String eval(String script, long waitMs) throws Exception {
+		init();
+		CompletableFuture<String> future = new CompletableFuture<>();
+		Platform.runLater(() -> {
+			WebEngine target = (browserEngine != null) ? browserEngine : engine;
+			try {
+				if (waitMs > 0) {
+					Thread.sleep(waitMs);
+				}
+				// executeScript returns the value of the last expression.
+				// If user wrote "return expr", wrap in an IIFE to make it valid.
+				String cleanScript = script.trim();
+				String codeToEval;
+				if (cleanScript.startsWith("return ")) {
+					codeToEval = "(function(){" + cleanScript + "})()";
+				} else {
+					codeToEval = cleanScript;
+				}
+				Object result = target.executeScript(codeToEval);
+				future.complete(result != null ? result.toString() : "null");
+			} catch (Exception e) {
+				future.completeExceptionally(e);
+			}
+		});
+		return future.get(30, TimeUnit.SECONDS);
 	}
 
 	public static void shutdown() {
