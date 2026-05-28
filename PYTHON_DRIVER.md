@@ -1,13 +1,13 @@
-# wwwjs_driver — Python Selenium-like driver for wwwjs
+# koslenium_driver — Python Selenium-like driver for koslenium_driver
 
-Zero-dependency Python wrapper around the wwwjs JavaFX WebView socket server.
+Zero-dependency Python wrapper around the koslenium_driver JavaFX WebView socket server.
 Auto-starts the server on first use, provides familiar WebDriver-style APIs, and
 shuts everything down cleanly on exit.
 
 ## Quick start
 
 ```python
-from wwwjs_driver import WebDriver
+from koslenium_driver import WebDriver
 
 with WebDriver() as driver:
     driver.get("https://example.com")
@@ -19,7 +19,7 @@ with WebDriver() as driver:
 
 ## Installation
 
-No package install is required — just copy `wwwjs_driver.py` next to `run.sh`
+No package install is required — just copy `koslenium_driver.py` next to `run.sh`
 (and ensure Java / Maven built the project).  The driver locates `run.sh`
 automatically.
 
@@ -188,7 +188,7 @@ See the `examples/` directory for runnable scripts:
 
 ## Differences from Selenium
 
-- **No native WebDriver protocol** — everything goes through the wwwjs TCP socket.
+- **No native WebDriver protocol** — everything goes through the koslenium_driver TCP socket.
 - **Screenshots reload the page** in a headless WebView, so interactive state is lost.
 - **Frames are client-side scoped** — `switch_to_frame` prepends the iframe selector; the server still sees the whole DOM.
 - **Alerts are auto-dismissed** by WebKit; `alert_accept` only retrieves the last message text.
@@ -208,11 +208,11 @@ See the `examples/` directory for runnable scripts:
 ```
   Your Python script
          |
-    wwwjs_driver.py  <-- TCP JSON line protocol
+    koslenium_driver.py  <-- TCP JSON line protocol
          |
     ./run.sh --server
          |
-    wwwjs.java socket server
+    KosleniumDriver.java socket server
          |
     HeadlessWebRender.java (JavaFX WebEngine)
 ```

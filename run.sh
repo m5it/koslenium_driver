@@ -1,10 +1,10 @@
 #!/bin/bash
-# Run wwwjs with JavaFX module path from Maven local repository
+# Run koslenium_driver with JavaFX module path from Maven local repository
 # Auto-detects headless environments and uses xvfb-run when needed.
 set -e
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
-JAR="$DIR/target/wwwjs-1.0-SNAPSHOT.jar"
+JAR="$DIR/target/koslenium_driver-1.0-SNAPSHOT.jar"
 MR="$HOME/.m2/repository/org/openjfx"
 FV="21"
 
@@ -28,7 +28,7 @@ MODPATH="$MODPATH:$JAR"
 JAVA_CMD=(java --module-path "$MODPATH" \
      --add-modules javafx.controls,javafx.web \
      -cp "$DIR/target/classes:$JAR" \
-     com.example.wwwjs.wwwjs "$@")
+     com.example.koslenium_driver.KosleniumDriver "$@")
 
 # If DISPLAY is not set, try xvfb-run for headless environments
 if [ -z "${DISPLAY:-}" ]; then

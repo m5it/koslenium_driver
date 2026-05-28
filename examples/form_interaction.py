@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from wwwjs_driver import WebDriver
+from koslenium_driver import WebDriver
 
 
 def main():
@@ -23,7 +23,7 @@ def main():
         # Fill form fields
         driver.send_keys("input[name='custname']", "Alice")
         driver.send_keys("input[name='custtel']", "555-1234")
-        driver.send_keys("textarea[name='comments']", "Hello from wwwjs_driver!")
+        driver.send_keys("textarea[name='comments']", "Hello from koslenium_driver!")
 
         # Select option
         driver.select_option("select[name='size']", "large")

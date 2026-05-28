@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>wwwjs</artifactId>
+    <artifactId>koslenium_driver</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -66,7 +66,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.example.wwwjs.wwwjs</mainClass>
+                    <mainClass>com.example.koslenium_driver.KosleniumDriver</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -74,7 +74,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>com.example.wwwjs.wwwjs</mainClass>
+                    <mainClass>com.example.koslenium_driver.KosleniumDriver</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -93,7 +93,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.example.wwwjs.wwwjs</mainClass>
+                                    <mainClass>com.example.koslenium_driver.KosleniumDriver</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

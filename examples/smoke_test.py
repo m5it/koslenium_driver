@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-examples/smoke_test.py — Basic sanity check for wwwjs_driver.
+examples/smoke_test.py — Basic sanity check for koslenium_driver.
 
 Run with:
     python3 examples/smoke_test.py
@@ -10,10 +10,10 @@ import os
 import sys
 import tempfile
 
-# Ensure the repo root is on the path so we can import wwwjs_driver
+# Ensure the repo root is on the path so we can import koslenium_driver
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from wwwjs_driver import WebDriver
+from koslenium_driver import WebDriver
 
 
 def main():

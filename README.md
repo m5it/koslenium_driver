@@ -1,4 +1,4 @@
-# wwwjs — JavaFX WebView JS rendering CLI
+# koslenium_driver — JavaFX WebView JS rendering CLI
 
 Renders web pages with full JavaScript execution using JavaFX WebKit (WebView). Supports headless rendering, interactive browser mode (captcha solving), screenshots, and a persistent socket-server mode.
 
@@ -32,14 +32,14 @@ mvn clean package -q         # build fat jar
 
 ## Server mode
 
-In server mode (`--server`), wwwjs starts a TCP socket server and keeps the JVM + JavaFX WebEngine alive across requests. The Python tool (`tool_WWWJS.py`) uses this automatically — the first call starts the server, subsequent calls send commands over the socket.
+In server mode (`--server`), koslenium_driver starts a TCP socket server and keeps the JVM + JavaFX WebEngine alive across requests. The Python tool (`tool_WWWJS.py`) uses this automatically — the first call starts the server, subsequent calls send commands over the socket.
 
 ### Starting the server
 
 ```sh
 ./run.sh --server --port 9876
 # stdout: SERVER_PORT=9876
-# stderr: wwwjs server listening on port 9876
+# stderr: koslenium_driver server listening on port 9876
 ```
 
 If `--port` is omitted, a random port is assigned and printed as `SERVER_PORT=<port>` on stdout's first line.
@@ -133,7 +133,7 @@ echo '{"shutdown":true}' | nc localhost 9876
 
 ## Cookie sharing with www
 
-Cookies saved by wwwjs (`--browser --cookie-file cookies.json`) can be reused by the simple www HTTP client:
+Cookies saved by koslenium_driver (`--browser --cookie-file cookies.json`) can be reused by the simple www HTTP client:
 
 ```sh
 # Solve captcha in browser, save cookies
@@ -147,7 +147,7 @@ java -jar ../www/target/www-1.0-SNAPSHOT.jar --cookie-file ~/google_cookies.json
 
 The `tools/tool_WWWJS.py` wrapper manages the server lifecycle transparently:
 
-- **First call** — starts the server in background, parses `SERVER_PORT=<port>`, saves port to `/tmp/wwwjs.port`
+- **First call** — starts the server in background, parses `SERVER_PORT=<port>`, saves port to `/tmp/koslenium_driver.port`
 - **Subsequent calls** — connects to the running server via TCP socket, sends JSON command, reads JSON response
 - **Fallback** — if the server is unavailable (crashed, not started), falls back to one-shot mode
 - **Cleanup** — `atexit` handler terminates the server process

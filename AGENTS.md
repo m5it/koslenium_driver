@@ -1,10 +1,10 @@
-# wwwjs — JavaFX WebView JS rendering CLI
+# koslenium_driver — JavaFX WebView JS rendering CLI
 
 ## Structure
 
-- `src/main/java/com/example/wwwjs/wwwjs.java` — CLI entry point; also implements socket server mode (`--server`)
-- `src/main/java/com/example/wwwjs/HeadlessWebRender.java` — JavaFX WebView engine (headless, interactive browser, screenshot, socket dispatch)
-- `src/test/java/com/example/wwwjs/wwwjsTest.java` — JUnit 5 unit tests (21); pure Java, no JavaFX/WebView needed
+- `src/main/java/com/example/koslenium_driver/KosleniumDriver.java` — CLI entry point; also implements socket server mode (`--server`)
+- `src/main/java/com/example/koslenium_driver/HeadlessWebRender.java` — JavaFX WebView engine (headless, interactive browser, screenshot, socket dispatch)
+- `src/test/java/com/example/koslenium_driver/KosleniumDriverTest.java` — JUnit 5 unit tests (21); pure Java, no JavaFX/WebView needed
 - `pom.xml` — Java 21, JavaFX 21, maven-shade-plugin fat jar
 - `config.json` — default `userAgent`, `waitMs`, `selector`, `cookieFile`, `timeout`
 - `run.sh` — preferred launcher; auto-detects headless envs and wraps with `xvfb-run`
@@ -22,7 +22,7 @@ mvn clean package -q         # build fat jar
 
 - `run.sh` automatically uses `xvfb-run` when `DISPLAY` is unset. Do not manually install/configure xvfb unless the script fails.
 - If running the fat jar directly (not via `run.sh`), you must set `--module-path` to JavaFX jars and add `--add-modules javafx.controls,javafx.web`. `run.sh` constructs this from `~/.m2/repository/org/openjfx`.
-- `wwwjs.java` hardcodes JavaFX platform properties at startup:
+- `KosleniumDriver.java` hardcodes JavaFX platform properties at startup:
   ```java
   System.setProperty("glass.platform", "gtk");
   System.setProperty("prism.order", "sw");
@@ -40,7 +40,7 @@ mvn clean package -q         # build fat jar
 
 ## Cookie sharing with www
 
-Cookies saved by wwwjs (`--browser --cookie-file cookies.json`) can be reused by the `www` CLI:
+Cookies saved by koslenium_driver (`--browser --cookie-file cookies.json`) can be reused by the `www` CLI:
 
 ```sh
 # Solve captcha in browser, save cookies

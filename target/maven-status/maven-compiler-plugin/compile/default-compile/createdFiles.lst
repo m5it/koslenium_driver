@@ -1,7 +1,7 @@
-com/example/wwwjs/HeadlessWebRender.class
-com/example/wwwjs/wwwjs.class
-com/example/wwwjs/HeadlessWebRender$4.class
-com/example/wwwjs/HeadlessWebRender$App.class
-com/example/wwwjs/HeadlessWebRender$2.class
-com/example/wwwjs/HeadlessWebRender$1.class
-com/example/wwwjs/HeadlessWebRender$3.class
+com/example/koslenium_driver/HeadlessWebRender.class
+com/example/koslenium_driver/HeadlessWebRender$3.class
+com/example/koslenium_driver/HeadlessWebRender$1.class
+com/example/koslenium_driver/HeadlessWebRender$4.class
+com/example/koslenium_driver/HeadlessWebRender$App.class
+com/example/koslenium_driver/HeadlessWebRender$2.class
+com/example/koslenium_driver/KosleniumDriver.class

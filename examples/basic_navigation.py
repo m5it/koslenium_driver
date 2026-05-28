@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from wwwjs_driver import WebDriver
+from koslenium_driver import WebDriver
 
 
 def main():
